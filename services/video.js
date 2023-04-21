@@ -1,6 +1,6 @@
 import {hyRequest} from "./index"
 
-export function getTopMv(limit=20, offset=0) {
+export function getTopMv(offset=0, limit=20) {
   return  hyRequest.get({
     url: "/top/mv",
     data: {

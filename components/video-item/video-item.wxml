@@ -1,11 +1,17 @@
 <!--components/video-item/video-item.wxml-->
+<!-- 导入wxs -->
+<wxs src="../../utils/format.wxs" module="fmt"></wxs>
 <view class="item">
   <view class="album">
     <image class="image" mode="widthFix" src="{{itemData.cover}}" />
+    <view class="info">
+      <view class="container">
+        <image class="paly-icon" src="../../assets/images/icons/play_icon.png" mode=""/>
+        <view class="count">{{fmt.formatCount(itemData.playCount)}}</view>
+      </view>
+      <view class="duration">{{fmt.formatTime(itemData.mv.videos[0].duration)}}</view>
+    </view>
   </view>
-  <view class="info">
-    <view class="count">{{itemData.playCount}}</view>
-    <view class="duration">{{itemData.mv.videos[0].duration}}</view>
-  </view>
+
   <view class="content">{{itemData.name}} - {{itemData.artistName}}</view>
 </view>
