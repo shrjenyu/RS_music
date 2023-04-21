@@ -1,5 +1,5 @@
 // pages/main_video/main_video.js
-import {hyRequest} from "../../services/index"
+import {getTopMv} from "../../services/video"
 Page({
   data: {
     videoList: [],
@@ -7,14 +7,16 @@ Page({
   },
 
   onLoad() {
-    hyRequest.get({
-      url: "/top/mv",
-      data: {
-        limit: 20, 
-        offset: 0
-      }
-    }).then(res => {
-      console.log(res);
-    })
+    //  getTopMv().then(res => {
+    //   this.setData({videoList: res.data})
+    // })
+
+    this.fetchTopMv()
+  },
+
+  // 封装网络请求的函数
+  async fetchTopMv() {
+    const res = await getTopMv()
+    this.setData({videoList: res.data})
   }
 })
