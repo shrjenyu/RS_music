@@ -1,2 +1,5 @@
 <!--pages/main_music/main_music.wxml-->
-<text>pages/main_music/main_music.wxml</text>
+<text>pages/main_music/main_music.wxml 1122</text>
+<view class="iconfont icon-qiyeruzhu" style="font-size: 100rpx;color: red;">
+  
+</view>
