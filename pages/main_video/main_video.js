@@ -35,5 +35,17 @@ Page({
     // 判断是否有更多的数据
     if (!this.data.hasMore) return
     this.fetchTopMv()
+  },
+
+  // 上拉刷新
+  async onPullDownRefresh() {
+    // 清空之前的数据
+    this.setData({videoList: []})
+    this.data.offset = 0,
+    this.data.hasMore = true
+    // 发送新的请求 -> 请求完成后停止,使用异步函数
+    await this.fetchTopMv()
+    // 请求完成后停止刷新
+    wx.stopPullDownRefresh()
   }
 })

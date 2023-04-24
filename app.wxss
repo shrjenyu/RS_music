@@ -1,2 +1,8 @@
+@import "./assets/iconfont/iconfont.wxss";
 
-@import "./assets/iconfont/iconfont.wxss"
+page {
+  background-color: #fafafa;
+}
+
+
+

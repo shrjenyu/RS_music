@@ -1,66 +1,113 @@
 // pages/main_music/main_music.js
+import {getMusicBanner, getSongMenuList} from "../../services/music"
+import recommendStore from "../../store/recommendStore"
+import rankingStore from "../../store/rankingStore"
+
+
+
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
+    banners: [],
+    recommendSongs: [],
+    hotMenuList: [],
+    recMenuList: [],
+    rankingInfos: {}
+  },
+
+  // 点击监听
+  onSearchClick() {
+    wx.navigateTo({ url: '/pages/detail_search/detail_search'})
+  },
+
+  // banner
+  onLoad() {
+    this.fetchMusicBanner()
+    this.fetchSongMenuList()
+    // this.fetchRecommendSongs()
+
+    // 发起Store中的action
+    recommendStore.onState("recommendSongsInfo", this.handleRecommendSongs)
+    recommendStore.dispatch("fetchRecommendSongsAction")
+
+    rankingStore.onState("newRanking", this.handleNewRanking)
+    rankingStore.onState("originRanking", this.handleOriginRanking)
+    rankingStore.onState("upRanking", this.handleUpRanking)
+    rankingStore.dispatch("fetchRankingDataAction")
+
+
+
 
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad(options) {
-
+  // 请求banner函数
+  async fetchMusicBanner() {
+    const res = await getMusicBanner()
+    this.setData({banners: res.banners})
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
+  // 请求推荐歌曲
+  // async fetchRecommendSongs() {
+  //   const res = await getPlaylistDetail(3778678)
+  //   const playlist = res.playlist
+  //   const recommendSongs = playlist.tracks.slice(0, 6)
+  //   this.setData({recommendSongs})
+  // },
 
+  // 请求歌单
+  async fetchSongMenuList() {
+    getSongMenuList().then(res => {
+      this.setData({hotMenuList: res.playlists})
+    })
+    getSongMenuList("华语").then(res => {
+      this.setData({ recMenuList: res.playlists })
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
 
+  // 事件监听
+  onRecommendMoreClick() {
+    wx.navigateTo({
+      url: '/pages/detail_song/detail_song?type=recommend',
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
+  // ------store中获取数据-----
+  
+  // 封装调用函数
+  handleRecommendSongs(value) {
+    if (!value.tracks) return
+    this.setData({recommendSongs: value.tracks.slice(0, 6)})
+  },
+  handleNewRanking(value) {
+    // console.log("新歌榜:", value);
+    if (!value.name) return
+    this.setData({ isRankingData: true })
+    const newRankingInfos = { ...this.data.rankingInfos, newRanking: value }
+    this.setData({ rankingInfos: newRankingInfos })
+  },
+  handleOriginRanking(value) {
+    // console.log("原创榜:", value);
+    if (!value.name) return
+    this.setData({ isRankingData: true })
+    const newRankingInfos = { ...this.data.rankingInfos, originRanking: value }
+    this.setData({ rankingInfos: newRankingInfos })
+  },
+  handleUpRanking(value) {
+    // console.log("飙升榜:", value);
+    if (!value.name) return
+    this.setData({ isRankingData: true })
+    const newRankingInfos = { ...this.data.rankingInfos, upRanking: value }
+    this.setData({ rankingInfos: newRankingInfos })
   },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
   onUnload() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
+    recommendStore.offState("recommendSongsInfo", this.handleRecommendSongs)
+    rankingStore.offState("newRanking", this.handleNewRanking)
+    rankingStore.offState("originRanking", this.handleOriginRanking)
+    rankingStore.offState("upRanking", this.handleUpRanking)
   }
+
+
+  
+
 })
