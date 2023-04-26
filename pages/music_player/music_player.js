@@ -6,6 +6,8 @@ import playerStore from "../../store/playStore"
 const app = getApp()
 // 创建播放器
 const audioContext = wx.createInnerAudioContext()
+const audioContext1 = wx.setInnerAudioOption()
+audioContext1.obeyMuteSwitch = false
 const modeNames = ["order", "repeat", "random"]
 
 Page({
@@ -36,7 +38,11 @@ Page({
       contentHeight: app.globalData.contentHeight
     })
     const id = options.id
+    audioContext.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`
+    audioContext.autoplay = true
+
     this.setupPlaySong(id)
+    audioContext.play()
   },
 
   // ------ 歌曲播放逻辑 -------
@@ -52,12 +58,13 @@ Page({
       const lyricInfos = parseLyric(lrcString)
       this.setData({lyricInfos})
     })
-
-    // 获取Store中的数据
-    playerStore.onStates(["playSongList", "playSongIndex"], this.getPlaySongInfosHandler)
     // 播放歌曲
     audioContext.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`
     audioContext.autoplay = true
+
+    // 获取Store中的数据
+    playerStore.onStates(["playSongList", "playSongIndex"], this.getPlaySongInfosHandler)
+
     // 监听播放进度
     if (this.data.isFirstPlay) {
       this.data.isFirstPlay = false
@@ -111,6 +118,7 @@ Page({
   // 返回功能
   onNavBackTap() {
     wx.navigateBack()
+    audioContext.pause()
   },
   // 轮播改变索引值
   onSwiperChange(event) {

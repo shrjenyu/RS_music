@@ -2,6 +2,7 @@
 .menu-item {
   display: inline-block;
   width: 100%;
+  border: 1px solid red;
 }
 
 .top {
@@ -12,6 +13,7 @@
   width: 100%;
   border-radius: 12rpx;
   background-size: cover;
+  border: 1px solid green;
 }
 
 .top .count {
@@ -28,6 +30,8 @@
 .menu-item .bottom {
   width: 100%;
   font-size: 26rpx;
+  height: 36px;
+  border: 1px solid blue;
 
   /* 显示两行 */
   white-space: normal;
