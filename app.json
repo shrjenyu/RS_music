@@ -5,7 +5,8 @@
     "pages/detail_video/detail_video",
     "pages/detail_search/detail_search",
     "pages/detail_song/detail_song",
-    "pages/detail_menu/detail_menu"
+    "pages/detail_menu/detail_menu",
+    "pages/music_player/music_player"
   ],
   "tabBar": {
     "list": [

@@ -28,6 +28,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "歌曲播放",
+          "pathName": "pages/music_player/music_player",
+          "query": "id=1363948882",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

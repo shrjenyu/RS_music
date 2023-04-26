@@ -2,6 +2,7 @@
 import {getMusicBanner, getSongMenuList} from "../../services/music"
 import recommendStore from "../../store/recommendStore"
 import rankingStore from "../../store/rankingStore"
+import playerStore from "../../store/playStore"
 
 
 
@@ -69,6 +70,11 @@ Page({
     wx.navigateTo({
       url: '/pages/detail_song/detail_song?type=recommend',
     })
+  },
+  onSongItemTap(event) {
+    const index = event.currentTarget.dataset.index
+    playerStore.setState("playSongList", this.data.recommendSongs)
+    playerStore.setState("playSongIndex", index)
   },
 
   // ------store中获取数据-----

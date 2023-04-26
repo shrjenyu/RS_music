@@ -1,6 +1,7 @@
 // pages/detail_song/detail_song.js
 import rankingStore from "../../store/rankingStore"
 import recommendStore from "../../store/recommendStore"
+import playerStore from "../../store/playStore"
 import { getPlaylistDetail } from "../../services/music"
 
 
@@ -33,6 +34,11 @@ Page({
   async fetchMenuSongInfo() {
     const res = await getPlaylistDetail(this.data.id)
     this.setData({songInfo: res.playlist})
+  },
+
+  // store设置数据
+  onSongItemTap() {
+    playerStore.setState("playSongList", this.data.songInfo.tracks)
   },
 
   handleRanking(value) {
