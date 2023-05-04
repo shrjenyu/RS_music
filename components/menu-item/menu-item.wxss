@@ -34,6 +34,7 @@
   border: 1px solid blue;
 
   /* 显示两行 */
+  display: -webkit-box;
   white-space: normal;
   overflow: hidden;
   text-overflow: ellipsis;
